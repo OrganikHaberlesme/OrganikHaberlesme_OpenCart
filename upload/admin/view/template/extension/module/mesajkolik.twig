@@ -1,0 +1,644 @@
+{{ header }}
+{{ column_left }}
+{{ tab }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right">
+        <button type="submit" form="form-module" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+        <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a></div>
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+          {% for breadcrumb in breadcrumbs %}
+            <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+          {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">
+      {% if error_warning %}
+        <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+        </div>
+      {% endif %}
+    <div class="container-fluid" style="background: white;box-shadow: 0px 0px 20px -5px;padding: 20px;margin: 20px 20px 30px 20px;">
+      <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-module" class="form-horizontal" name="form-module">
+      <div class="card" style="max-width: initial;">
+        <div class="row text-right d-flex flex-row-reverse">
+          <div class="text-right logostyle">
+            <a href="https://www.organikhaberlesme.com.tr/" target="_blank" alt="Organik Haberleşme">
+              <img height="90" src="view/image/mesajkolik/organik-logo.png"/>
+            </a>
+          </div>
+        </div>
+
+
+
+        <div class="card-body">
+          <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+            <li class="nav-item {{ tab == 'info' ? ' active' : '' }}">
+              <a class="nav-link" id="pills-info-tab" data-toggle="pill" href="#pills-info" role="tab" aria-controls="pills-contact" aria-selected="{{ tab == 'info' ? 'true' : 'false' }}">Giriş</a>
+            </li>
+            <li class="nav-item {{ tab == 'private' ? ' active' : '' }}">
+              <a class="nav-link" id="pills-private-tab" data-toggle="pill" href="#pills-private" role="tab" aria-controls="pills-contact" aria-selected="{{ tab == 'private' ? 'true' : 'false' }}">Özel SMS</a>
+            </li>
+            <li class="nav-item {{ tab == 'bulk' ? ' active' : '' }}">
+              <a class="nav-link" id="pills-bulk-tab" data-toggle="pill" href="#pills-bulk" role="tab" aria-controls="pills-contact" aria-selected="{{ tab == 'bulk' ? 'true' : 'false'}}">Toplu SMS</a>
+            </li>
+            <li class="nav-item {{ tab == 'auto' ? ' active' : '' }}">
+              <a class="nav-link" id="pills-auto-tab" data-toggle="pill" href="#pills-auto-sms" role="tab" aria-controls="pills-contact" aria-selected="{{ tab == 'auto' ? 'true' : 'false'}}">Otomatik SMS</a>
+            </li>
+            <li class="nav-item {{ tab == 'contact' ? ' active' : '' }}">
+              <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="{{ tab == 'contact' ? 'true' : 'false'}}">Rehber Yedekle</a>
+            </li>
+            <li class="nav-item {{ tab == 'settings' ? ' active' : '' }}">
+              <a class="nav-link" id="pills-settings-tab" data-toggle="pill" href="#pills-settings" role="tab" aria-controls="pills-contact" aria-selected="{{ tab == 'settings' ? 'true' : 'false'}}">Ayarlar</a>
+            </li>
+          </ul>
+          <hr>
+          <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade {{ tab == 'info' ? ' active in' : '' }}" id="pills-info" role="tabpanel" aria-labelledby="pills-info-tab">
+              <div class="row">
+                <div class="col-md-12">
+                  <h4>Organik SMS</h4>
+                </div>
+              </div>
+              <hr />
+              <div class="row mb-4">
+                <div class="col-sm-6">
+                  <input class="" id="mesajkolik_status" name="mesajkolik_status" value="1" type="checkbox" {{ mesajkolik_status == '0' ? '' : 'checked' }} data-toggle="toggle" data-onstyle="success" data-offstyle="secondary" data-on=" " data-off=" ">
+                  <label  class="col-form-label ml-2" style="font-weight:700;">Eklenti Durumu</label>
+                </div>
+              </div>
+              <div class="row mb-4">
+                <div class="col-sm-6">
+                  <b>Mevcut SMS Krediniz: {{ balance }}</b>
+                </div>
+              </div>
+              <hr />
+
+              <div class="row" >
+              <div class="col-md-6">
+                <div>
+                  <h4><b>İnfo</b></h4>
+                </div>
+                <hr />
+                <span class="h6">
+                  Organik SMS OpenCart eklentisi ile müşterilerinize kolaylıkla erişebilir, tanımladığınız otomatik SMS’ler ile kolayca bilgilendirme mesajları gönderebilirsiniz.
+                </span>
+                <br /><br />
+                <div class=" msgbox">
+                  <span class="h6">
+                    <strong >Not:</strong> Bu eklentiyi kullanabilmek için <a href="https://www.organikhaberlesme.com.tr/">Organik Haberleşme</a> üyeliğine sahip olmalısınız. Bir hesabınız yoksa hemen <a href="https://www.organikhaberlesme.com.tr/" >organikhaberlesme.com.tr</a> üzerinden hızlı üyelik gerçekleştirebilirsiniz!
+                  </span>
+                </div>
+                <br />
+                <p>
+                  <span class="h6">
+                    Bir hesaba sahipseniz Organik Haberleşme üzerinden hesabınıza giriş yapıp API Kullanıcısı oluşturmalısınız. Bunun için aşağıdaki yönergeleri takip edebilirsiniz:
+                  </span>
+                </p>
+                <ul style="list-style-type:disc;" class="ml-5">
+                  <li>Giriş yaptıktan sonra sol menüden <strong>API</strong> başlığına tıklatın</li>
+                  <li>Açılan alt başlıklardan <strong>API Kullanıcısı Oluşturma</strong> menüsünü seçin</li>
+                  <li>Açılan sayfanın sağ tarafında API için bir <strong>Kullanıcı Adı</strong> ve <strong>Şifre</strong> belirleyin ardından kaydedin.</li>
+                  <li>Organik SMS Wordpress eklentisinde <strong>Ayarlar</strong> menüsüne oluşturduğunuz API kullanıcı bilgilerini girin.</li>
+                  <li>Giriş başarılı sonucu döndükten sonra <strong>SMS Başlığı</strong>nızı seçmeyi unutmayın.</li>
+                </ul>
+              </div>
+                <div class="col-md-6">
+                  <div>
+                    <h4><b>Kurulum Aşamaları</b></h4>
+                  </div>
+                  <hr />
+                  <div class="panel-group" id="collapsebt">
+                    <div class="panel panel-default">
+                      <div class="panel-heading mesajkolik-pnl-heading">
+                        <h4 class="panel-title">
+                          <a data-toggle="collapse" data-parent="#collapsebt" href="#mesajkolikcollapse1">
+                          Adım 1</a>
+                        </h4>
+                      </div>
+                      <div id="mesajkolikcollapse1" class="panel-collapse collapse in">
+                        <div class="panel-body">Organik SMS Eklentisini İndirin. Eklenti Uyumluluk Kısmından Sizin Open Cart Sürümünüze Uygun Olup Olmadığına Bakamyı Unutmayınız.</div>
+                      </div>
+                    </div>
+                    <div class="panel panel-default">
+                      <div class="panel-heading mesajkolik-pnl-heading">
+                        <h4 class="panel-title">
+                          <a data-toggle="collapse" data-parent="#collapsebt" href="#mesajkolikcollapse2">
+                          Adım 2</a>
+                        </h4>
+                      </div>
+                      <div id="mesajkolikcollapse2" class="panel-collapse collapse">
+                        <div class="panel-body">Yönetim Panelinden Eklentiler > Eklenti Yükle sekmesine tıklayınız. İndirdiğiniz "ocmod.zip" uzantılı zip dosyasını yüklemek için "Yükle" butonuna tıkladıktan sonra paketi seçiniz.</div>
+                      </div>
+                    </div>
+                    <div class="panel panel-default">
+                      <div class="panel-heading mesajkolik-pnl-heading">
+                        <h4 class="panel-title">
+                          <a data-toggle="collapse" data-parent="#collapsebt" href="#mesajkolikcollapse3">
+                          Adım 3</a>
+                        </h4>
+                      </div>
+                      <div id="mesajkolikcollapse3" class="panel-collapse collapse">
+                        <div class="panel-body">Eklentiler > Eklentiler menüsünden eklenti türü olarak Modülleri seçiniz. Ardından "Mesajkolik" modülünü Kur butonuna tıklayınız.</div>
+                      </div>
+                    </div>
+                    <div class="panel panel-default">
+                      <div class="panel-heading mesajkolik-pnl-heading">
+                        <h4 class="panel-title">
+                          <a data-toggle="collapse" data-parent="#collapsebt" href="#mesajkolikcollapse4">
+                          Adım 4</a>
+                        </h4>
+                      </div>
+                      <div id="mesajkolikcollapse4" class="panel-collapse collapse">
+                        <div class="panel-body">Eklentiler > Modifikasyonlar kısmındaki Mesajkolik modifikasyonunun Durumunun Aktif olduğunu kontrol ediniz. Ardından
+                          üst sağ bölümde bulunan refresh butonu ile modifikasyonları yenileyiniz.
+                          Bu işlemden sonra sol taraftaki Eklentiler menüsünde Mesajkolik modülü göreceksiniz.</div>
+                      </div>
+                    </div>
+                    <div class="panel panel-default">
+                      <div class="panel-heading mesajkolik-pnl-heading">
+                        <h4 class="panel-title">
+                          <a data-toggle="collapse" data-parent="#collapsebt" href="#mesajkolikcollapse5">
+                          Adım 5</a>
+                        </h4>
+                      </div>
+                      <div id="mesajkolikcollapse5" class="panel-collapse collapse">
+                        <div class="panel-body">Eklentiler sekmesinden Mesajkolik modülüne girip isteğinize göre ayarları adım adım yapınız.</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <a href="https://www.organikhaberlesme.com.tr/" class="stretched-link">Organik Haberleşme Teknolojileri</a>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane fade  {{ tab == 'private' ? ' active in' : '' }}" id="pills-private" role="tabpanel" aria-labelledby="pills-private-tab">
+                <div class="form-group row" asdsad>
+                  <label for="private-phone" class="col-sm-2 col-form-label">GSM Numarası :</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" name="gsm" placeholder="Mesaj Göndermek İstediğiniz Telefon Numaraları (Virgül ile birden fazla girebilirsiniz.)">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="private-message" class="col-sm-2 col-form-label">Mesajınız :</label>
+                  <div class="col-sm-10">
+                    <textarea class="form-control" rows="3" name="message" placeholder="Göndermek İstediğiniz Mesaj içeriği"></textarea>
+                  </div>
+                </div>
+                <button id="form_private_sms" type="button" class="btn btn-primary btn-sm">Gönder</button>
+            </div>
+            <div class="tab-pane fade {{ tab == 'bulk' ? ' active in' : '' }}" id="pills-bulk" role="tabpanel" aria-labelledby="pills-bulk-tab">
+              <div class="row">
+                  <div class="col-sm-12">
+                    <table id="users-bulk-table" class="table table-striped table-bordered" style="width:100%">
+                      <thead>
+                          <tr>
+                              <th style="width:10px;">
+                                <div class="col-sm-2 m-1" >
+                                  <input id="toggle-select-all-users" type="checkbox" checked data-toggle="toggle" data-onstyle="success" data-offstyle="secondary" data-on=" " data-off=" " data-size="small">
+                                </div>
+                              </th>
+                              <th>Müşteri Adı</th>
+                              <th>E posta</th>
+                              <th>Telefon</th>
+                              <th>Özel Mesaj</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                        {% if customers %}
+                        {% for customer in customers %}
+                              <tr>
+                                  <th>
+                                    <div class="col-sm-2 m-1">
+                                      <input name="mesajkol_gsm[]" value="{{ customer.id }}" class="user-select-bulk" type="checkbox" checked data-toggle="toggle" data-onstyle="success" data-offstyle="secondary" data-on=" " data-off=" " data-size="small">
+                                    </div>
+                                  </th>
+                                  <td>
+                                    {{ customer.name|capitalize ~ ' ' ~ customer.lastname|capitalize }}
+                                  </td>
+                                  <td>{{ customer.email }}</td>
+                                  <td>{{ customer.telephone }}</td>
+                                  <td><button type="button" class="btn btn-primary btn-bulk-modal" data-toggle="modal" data-target="#bulkPrivateSmsModal" data-phone="{{ customer.id }}"><i class="fa fa-envelope"></i></button></td>
+                              </tr>
+                          {% endfor %}
+                          {% else %}
+                          <tr>
+                              <th>
+                                <div class="col-sm-2 m-1">
+                                  <input name="mesajkol_gsm[]" value="0" class="user-select-bulk" type="checkbox" checked data-toggle="toggle" data-onstyle="success" data-offstyle="secondary" data-on=" " data-off=" " data-size="small">
+                                </div>
+                              </th>
+                              <td>
+                                Organik
+                              </td>
+                              <td>man@man.com</td>
+                              <td>555</td>
+                              <td><button type="button" class="btn btn-primary btn-bulk-modal" data-toggle="modal" data-target="#bulkPrivateSmsModal" data-phone="5"><i class="fa fa-envelope"></i></button></td>
+                          </tr>
+                          {% endif %}
+                      </tbody>
+                    </table>
+                    <div class="row mt-2">
+                      <div class="col-sm-12">
+                        <button type="button" class="btn btn-primary btn-bulk-modal" data-toggle="modal" data-target="#bulkPrivateSmsModal" data-phone="0" ><i class="fa fa-paper-plane"> Tümüne Gönder</i></button>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+            </div>
+            <div class="tab-pane fade  {{ tab == 'auto' ? ' active in' : '' }}" id="pills-auto-sms" role="tabpanel" aria-labelledby="pills-auto-tab">
+              <div class="row mesajkolik_option_row">
+                <div class="col-sm-2 mesajkolik_title_container">
+                  <p>Yeni üye olunca, belirlenen numaralara sms gönderilsin</p>
+                </div>
+                <div class="col-sm-2 mb-1 mesajkolik_switch_container">
+                  <input class="mesajkolik_check" data-id="1" {{ mesajkolik_auto_1_toggle == '1' ? 'checked' : '' }} name="mesajkolik_auto_1_toggle" value="1" type="checkbox" data-toggle="toggle" data-onstyle="success" data-offstyle="secondary" data-on=" " data-off=" "></div>
+                <div class="col-sm-8 mesajkolik_text_container">
+                  <div class="mesajkolik_option" data-id="1" style="display:{{ mesajkolik_auto_1_toggle == '1' ? 'block' : 'none' }}">
+                    <div class="input-group mb-3">
+                      <div class="input-group-addon" style="width: 124px;">
+                        <span class="input-group-text"  style="width: 100%;" id="span-input-1">Telefon</span>
+                      </div>
+                      <input type="text" name="mesajkolik_auto_1_phones" value="{{ mesajkolik_auto_1_phones }}" class="form-control" placeholder="Sms gönderilecek numaraları giriniz. Ör: 05555555555,05444444444" aria-label="Telefon" aria-describedby="span-input-1">
+                    </div>
+                    <div class="input-group">
+                      <div class="input-group-addon" style="width: 124px;">
+                        <span class="input-group-text" style="width: 100%;" id="hidden-textarea-1">Mesaj İçeriği</span>
+                      </div>
+                      <textarea name="mesajkolik_auto_1_message" class="form-control" aria-label="Mesaj İçeriği" placeholder="[uye_adi] [uye_soyadi] üye oldu!" >{{ mesajkolik_auto_1_message }}</textarea>
+                    </div>
+                    <div class="input-group mesajkolik_parameters">
+                      <span class="text-monospace">Parametreler: </span>
+                      <span class="mesajkolik_label text-monospace">[uye_adi]</span>
+                      <span class="mesajkolik_label text-monospace">[uye_soyadi]</span>
+                      <span class="mesajkolik_label text-monospace">[uye_telefon]</span>
+                      <span class="mesajkolik_label text-monospace">[uye_eposta]</span>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row mesajkolik_option_row" >
+                <div class="col-sm-2 mesajkolik_title_container">
+                  <p>Yeni üye olunca, müşteriye sms gönderilsin</p>
+                </div>
+                <div class="col-sm-2 mb-1 mesajkolik_switch_container">
+                  <input class="mesajkolik_check" {{ mesajkolik_auto_2_toggle == '1' ? 'checked' : '' }} data-id="2" name="mesajkolik_auto_2_toggle" value="1" type="checkbox" data-toggle="toggle" data-onstyle="success" data-offstyle="secondary" data-on=" " data-off=" "></div>
+                <div class="col-sm-8 mesajkolik_text_container">
+                  <div class="mesajkolik_option" data-id="2" style="display:{{ mesajkolik_auto_2_toggle == '1' ? 'block' : 'none' }};">
+                    <div class="input-group">
+                      <div class="input-group-addon" style="width: 124px;">
+                        <span class="input-group-text" style="width: 100%;" id="hidden-textarea-2">Mesaj İçeriği</span>
+                      </div>
+                      <textarea  name="mesajkolik_auto_2_message" class="form-control" aria-label="Mesaj İçeriği" placeholder="Üye olduğunuz için teşekkürler!"> {{ mesajkolik_auto_2_message }}</textarea>
+                    </div>
+                    <div class="input-group mesajkolik_parameters">
+                      <span class="text-monospace">Parametreler: </span>
+                      <span class="mesajkolik_label text-monospace">[uye_adi]</span>
+                      <span class="mesajkolik_label text-monospace">[uye_soyadi]</span>
+                      <span class="mesajkolik_label text-monospace">[uye_telefon]</span>
+                      <span class="mesajkolik_label text-monospace">[uye_eposta]</span>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row mesajkolik_option_row" >
+                <div class="col-sm-2 mesajkolik_title_container">
+                  <p>Yeni sipariş geldiğinde, belirlenen numaralara sms gönderilsin</p>
+                </div>
+                <div class="col-sm-2 mb-1 mesajkolik_switch_container">
+                  <input class="mesajkolik_check" {{ mesajkolik_auto_3_toggle == '1' ? 'checked' : '' }} data-id="3" name="mesajkolik_auto_3_toggle" value="1" type="checkbox" data-toggle="toggle" data-onstyle="success" data-offstyle="secondary" data-on=" " data-off=" "></div>
+                <div class="col-sm-8 mesajkolik_text_container">
+                  <div class="mesajkolik_option" data-id="3" style="display:{{ mesajkolik_auto_3_toggle == '1' ? 'block' : 'none' }};">
+                    <div class="input-group mb-3">
+                      <div class="input-group-addon" style="width: 124px;">
+                        <span class="input-group-text" style="width: 100%;" id="span-input-3">Telefon</span>
+                      </div>
+                      <input  name="mesajkolik_auto_3_phones" value="{{ mesajkolik_auto_3_phones }}" type="text" class="form-control" placeholder="Sms gönderilecek numaraları giriniz. Ör: 05555555555,05444444444" aria-label="Telefon" aria-describedby="span-input-3">
+                    </div>
+                    <div class="input-group">
+                      <div class="input-group-addon" style="width: 124px;">
+                        <span class="input-group-text" style="width: 100%;" id="hidden-textarea-3">Mesaj İçeriği</span>
+                      </div>
+                      <textarea  name="mesajkolik_auto_3_message" class="form-control" aria-label="Mesaj İçeriği" placeholder="Bir yeni sipariş verildi!">{{ mesajkolik_auto_3_message }}</textarea>
+                    </div>
+                    <div class="input-group mesajkolik_parameters">
+                      <span class="text-monospace">Parametreler: </span>
+                      <span class="mesajkolik_label text-monospace">[uye_adi]</span>
+                      <span class="mesajkolik_label text-monospace">[uye_soyadi]</span>
+                      <span class="mesajkolik_label text-monospace">[uye_telefon]</span>
+                      <span class="mesajkolik_label text-monospace">[uye_eposta]</span>
+
+                      <span class="mesajkolik_label text-monospace">[siparis_no]</span>
+                      <span class="mesajkolik_label text-monospace">[siparis_durum]</span>
+                      <span class="mesajkolik_label text-monospace">[siparis_tutar]</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row mesajkolik_option_row" >
+                <div class="col-sm-2 mesajkolik_title_container">
+                  <p>Yeni sipariş verildiğinde, Müşteriye bilgilendirme sms gönderilsin</p>
+                </div>
+                <div class="col-sm-2 mb-1 mesajkolik_switch_container">
+                  <input class="mesajkolik_check" {{ mesajkolik_auto_4_toggle == '1' ? 'checked' : '' }} data-id="4" name="mesajkolik_auto_4_toggle" value="1" type="checkbox" data-toggle="toggle" data-onstyle="success" data-offstyle="secondary" data-on=" " data-off=" "></div>
+                <div class="col-sm-8 mesajkolik_text_container">
+                  <div class="mesajkolik_option" data-id="4" style="display:{{ mesajkolik_auto_4_toggle == '1' ? 'block' : 'none' }};">
+                    <div class="input-group">
+                      <div class="input-group-addon" style="width: 124px;">
+                        <span class="input-group-text" style="width: 100%;" id="hidden-textarea-4">Mesaj İçeriği</span>
+                      </div>
+                      <textarea name="mesajkolik_auto_4_message" class="form-control" aria-label="Mesaj İçeriği" placeholder="Siparişiniz alındı!">{{ mesajkolik_auto_4_message }}</textarea>
+                    </div>
+                    <div class="input-group mesajkolik_parameters">
+                      <span class="text-monospace">Parametreler: </span>
+                      <span class="mesajkolik_label text-monospace">[uye_adi]</span>
+                      <span class="mesajkolik_label text-monospace">[uye_soyadi]</span>
+                      <span class="mesajkolik_label text-monospace">[uye_telefon]</span>
+                      <span class="mesajkolik_label text-monospace">[uye_eposta]</span>
+                      <span class="mesajkolik_label text-monospace">[siparis_no]</span>
+                      <span class="mesajkolik_label text-monospace">[siparis_tutar]</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row mesajkolik_option_row" >
+                <div class="col-sm-2 mesajkolik_title_container">
+                  <p>Ürünün sipariş durumu değiştiğinde müşteriye sms gönderilsin</p>
+                </div>
+                <div class="col-sm-2 mb-1 mesajkolik_switch_container">
+                  <input class="mesajkolik_check" {{ mesajkolik_auto_5_toggle == '1' ? 'checked' : '' }} data-id="5" name="mesajkolik_auto_5_toggle" value="1" type="checkbox" data-toggle="toggle" data-onstyle="success" data-offstyle="secondary" data-on=" " data-off=" "></div>
+                <div class="col-sm-8 mesajkolik_text_container">
+                  <div class="mesajkolik_option" data-id="5" style="display:{{ mesajkolik_auto_5_toggle == '1' ? 'block' : 'none' }};">
+                    <div class="input-group">
+                      <div class="input-group-addon" style="width: 124px;">
+                        <span class="input-group-text" style="width: 100%;" id="hidden-textarea-5">Mesaj İçeriği</span>
+                      </div>
+                      <textarea name="mesajkolik_auto_5_message" class="form-control" aria-label="Mesaj İçeriği" placeholder="Sayın [uye_adi] [uye_soyadi], [siparis_no] numaralı sipariş durumunuz [siparis_durum] olarak güncellenmiştir.">{{ mesajkolik_auto_5_message }}</textarea>
+                    </div>
+                    <div class="input-group mesajkolik_parameters">
+                      <span class="text-monospace">Parametreler: </span>
+                      <span class="mesajkolik_label text-monospace">[uye_adi]</span>
+                      <span class="mesajkolik_label text-monospace">[uye_soyadi]</span>
+                      <span class="mesajkolik_label text-monospace">[uye_telefon]</span>
+                      <span class="mesajkolik_label text-monospace">[uye_eposta]</span>
+
+                      <span class="mesajkolik_label text-monospace">[siparis_no]</span>
+                      <span class="mesajkolik_label text-monospace">[siparis_durum]</span>
+                      <span class="mesajkolik_label text-monospace">[siparis_tutar]</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row mesajkolik_option_row" >
+                <div class="col-sm-2 mesajkolik_title_container">
+                  <p>Sipariş iptal edildiğinde belirlediğim numaralı sms ile bilgilendir</p>
+                </div>
+                <div class="col-sm-2 mb-1 mesajkolik_switch_container">
+                  <input class="mesajkolik_check" {{ mesajkolik_auto_6_toggle == '1' ? 'checked' : '' }} data-id="6" name="mesajkolik_auto_6_toggle" value="1" type="checkbox" data-toggle="toggle" data-onstyle="success" data-offstyle="secondary" data-on=" " data-off=" "></div>
+                <div class="col-sm-8 mesajkolik_text_container">
+                  <div class="mesajkolik_option" data-id="6" style="display:{{ mesajkolik_auto_6_toggle == '1' ? 'blcok' : 'none' }};">
+                    <div class="input-group mb-3">
+                      <div class="input-group-addon" style="width: 124px;">
+                        <span class="input-group-text" style="width: 100%;" id="span-input-3">Telefon</span>
+                      </div>
+                      <input name="mesajkolik_auto_6_phones" value="{{ mesajkolik_auto_6_phones }}" type="text" class="form-control" placeholder="Sms gönderilecek numaraları giriniz. Ör: 05555555555,05444444444" aria-label="Telefon" aria-describedby="span-input-3">
+                    </div>
+                    <div class="input-group">
+                      <div class="input-group-addon" style="width: 124px;">
+                        <span class="input-group-text" style="width: 100%;" id="hidden-textarea-6">Mesaj İçeriği</span>
+                      </div>
+                      <textarea name="mesajkolik_auto_6_message" class="form-control" aria-label="Mesaj İçeriği" placeholder="[siparis_no] numaralı sipariş iptal edilmiştir.">{{ mesajkolik_auto_6_message }}</textarea>
+                    </div>
+                    <div class="input-group mesajkolik_parameters">
+                      <span class="text-monospace">Parametreler: </span>
+                      <span class="mesajkolik_label text-monospace">[uye_adi]</span>
+                      <span class="mesajkolik_label text-monospace">[uye_soyadi]</span>
+                      <span class="mesajkolik_label text-monospace">[uye_telefon]</span>
+                      <span class="mesajkolik_label text-monospace">[uye_eposta]</span>
+                      <span class="mesajkolik_label text-monospace">[siparis_no]</span>
+                      <span class="mesajkolik_label text-monospace">[iptal_nedeni]</span>
+                      <span class="mesajkolik_label text-monospace">[aciklama]</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row mesajkolik_option_row" style="display:none;" >
+                <div class="col-sm-2 mesajkolik_title_container">
+                  <p>Ürün stoğa girdiğinde bekleme listesindekilere sms gönder (Wc Waitlist)</p>
+                </div>
+                <div class="col-sm-2 mb-1 mesajkolik_switch_container">
+                  <input class="mesajkolik_check" {{ mesajkolik_auto_7_toggle == '1' ? 'checked' : '' }} data-id="7" name="mesajkolik_auto_7_toggle" value="1" type="checkbox" data-toggle="toggle" data-onstyle="success" data-offstyle="secondary" data-on=" " data-off=" "></div>
+                <div class="col-sm-8 mesajkolik_text_container">
+                  <div class="mesajkolik_option" data-id="7" style="display:{{ mesajkolik_auto_7_toggle == '1' ? 'block' : 'none' }};">
+                    <div class="input-group">
+                      <div class="input-group-addon" style="width: 124px;">
+                        <span class="input-group-text" style="width: 100%;" id="hidden-textarea-7">Mesaj İçeriği</span>
+                      </div>
+                      <textarea name="mesajkolik_auto_7_message" class="form-control" aria-label="Mesaj İçeriği">{{ mesajkolik_auto_7_message }}</textarea>
+                    </div>
+                    <div class="input-group mesajkolik_parameters">
+                      <span class="text-monospace">Parametreler: </span>
+                      <span class="mesajkolik_label text-monospace">[uye_adi]</span>
+                      <span class="mesajkolik_label text-monospace">[uye_soyadi]</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-sm-12 text-right">
+                  <button type="submit" class="btn btn-primary">Kaydet</button>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane fade  {{ tab == 'contact' ? ' active in' : '' }}" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+                <div class="row">
+                  <div class="col-sm-12">
+                      <div class="row mesajkolik_option_row mb-4" style="padding:24px 0px 24px 0px;">
+                        <label for="contact-group-name" class="col-sm-3 col-form-label">
+                            Kullanıcıları Organik SMS Rehberinize Aktarın
+                        </label>
+                      <div class="col-md-3">
+                        <input type="text" class="form-control w-100" value="{{ mesajkolik_lastgroup }}" name="mesajkolik_lastgroup" id="contact-group-name" placeholder="Grup Adı">
+                      </div>
+                    </div>
+                    <div class="row mb-4" >
+                      <div class="col-sm-3 mb-1">
+                        <input class="mesajkolik_check" {{ mesajkolik_lastgroup_toggle == '1' ? 'checked' : '' }} data-id="8" name="mesajkolik_lastgroup_toggle" value="1" type="checkbox" data-toggle="toggle" data-onstyle="success" b data-offstyle="secondary" a data-on=" " data-off=" ">
+                      </div>
+                      <label for="contact-group-name" class="col-sm-8 col-form-label mb-4">
+                          Yeni üye olunca, numarasını Organik Haberleşme rehberine ekle
+                      </label>
+                    </div>
+                    <button class="btn btn-primary btn-sm" id="backup_all_contact" type="button">Kaydet</button>
+                  </div>
+                </div>
+              </div>
+            <div class="tab-pane fade  {{ tab == 'settings' ? ' active in' : '' }}" id="pills-settings" role="tabpanel" aria-labelledby="pills-settings-tab">
+                <input type="hidden" name="mesajkolik_optionstab" value="{{ mesajkolik_optionstab }}">
+              <div class="form-group row">
+                <label for="username-settings" class="col-sm-2 col-form-label">Kullanıcı Adı: </label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control form-control w-100" value="{{ mesajkolik_user }}" name="mesajkolik_user" placeholder="Kullanıcı Adınız">
+                </div>
+              </div>
+              <div class="row">
+                <label for="private-phone" class="col-sm-2 col-form-label">Şifre: </label>
+                <div class="col-sm-6">
+                  <input type="password" class="form-control form-control w-100" value="{{ mesajkolik_pass }}" name="mesajkolik_pass" placeholder="Şifreniz">
+                </div>
+              </div>
+              <div class="row mt-4">
+                <div class="col-sm-8">
+                  <div class="alert alert-{{ check_login == '1' ? 'success' : 'danger' }}" role="alert">
+                    {{ check_login == '1' ? 'Başarıyla giriş yaptınız!' : 'Api kullanıcı bilgilerinizi kontrol edin.' }}
+                  </div>
+                </div>
+              </div>
+              <div class="row mesajkolik_row">
+                <div class="col-md-2 mb-4">
+                  <input type="hidden" name="sayfayi_yenile" id="sayfayi_yenile" value="1">
+                  <button type="submit" class="btn btn-primary btn-sm">Giriş Yap</button>
+                </div>
+              </div>
+              <div class="form-group row mt-4">
+                <label for="head-settings" class="col-md-2 col-form-label">SMS Başlığı: </label>
+                <div class="col-md-6">
+                  <select class="form-control w-100" name="mesajkolik_header" style="max-width: none;">
+                    <option disabled selected >Lütfen SMS Başlığı Seçiniz</option>
+                      {% for key in headers %}
+                        <option value="{{ key.name }}" {{ mesajkolik_header == key.name ? 'selected' : '' }}>{{ key.name }}</option>
+                      {% endfor %}
+                  </select>
+                </div>
+              </div>
+              <div class="row mesajkolik_row">
+                <div class="col-sm-12 mb-4">
+                  <button type="submit" class="btn btn-primary btn-sm">Kaydet</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+    </div>
+    </form>
+</div>
+  </div>
+
+  <div id="bulk-modal">
+    <div class="modal fade" id="bulkPrivateSmsModal" tabindex="-1" role="dialog" aria-labelledby="bulkPrivateSmsModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="bulkPrivateSmsModalLabel">Özel Mesaj Gönder</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body ">
+              <div class="form-group" style="display:none;">
+                <input type="text" class="form-control" name="id" id="recipient-name" hidden>
+              </div>
+              <div class="form-group mesajkolik_option" id="parent-modal-bulk" data-id="100">
+                <label for="message-text" class="col-form-label">Mesajınız:</label>
+                <textarea class="form-control" name="message" id="message-text" placeholder="Göndermek İstediğiniz Mesaj içeriği"></textarea>
+                <div class="input-group mesajkolik_parameters mb-4">
+                  <span class="text-monospace">Parametreler: </span>
+                  <span class="mesajkolik_label_bulk text-monospace">[uye_adi]</span>
+                  <span class="mesajkolik_label_bulk text-monospace">[uye_soyadi]</span>
+                </div>
+              </div>
+
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">İptal</button>
+                <button id="modal-bulk-private" type="button" class="btn btn-primary btn-sm">Gönder</button>
+              </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="alert-modal-mesajkolik">
+    <div class="modal fade" id="alert-modal" tabindex="-1" role="dialog" aria-labelledby="warning-modalTitle" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="warning-modalTitle">Organik SMS</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="text-center">
+              <i class="mesajkolik_alert_success fa fa-check"></i>
+              <i class="mesajkolik_alert_danger fa fa-times" style="display:none"></i>
+            </div>
+            <h5 id="alert-modal-desc" class="text-center"></h5>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">Tamam</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal-responser-parent">
+    <div class="modal fade" id="modal-responser" tabindex="-1" role="dialog" aria-labelledby="modalResponserTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header text-center">
+          <div class="text-center">
+            <h5 class="modal-title" id="modalResponserTitle">Organik SMS</h5>
+          </div>
+        </div>
+        <div class="modal-body">
+          <div class="text-center">
+            <!-- <i class="mesajkolik_alert_response fa fa-clock-o fa-6"></i> -->
+            <img height="45" src="view/image/mesajkolik/spinner-2x.gif"/>
+            <br /> <br />
+            <span>Lütfen Bekleyiniz…</span>
+          </div>
+          <h5 class="text-center"></h5>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <script>
+    var usertoken = '{{ user_token }}';
+    function formPostUrl(e){
+      var url ='';
+      if (e === null || e == null) {
+        url = 'index.php?route=extension/module/mesajkolik&user_token='+usertoken;
+      }else {
+        url = 'index.php?route=extension/module/mesajkolik/'+e+'&user_token='+usertoken;
+      }
+      return url;
+    }
+  </script>
+
+
+
+  <!-- <link href="view/stylesheet/mesajkolik/bootstrap.min.css" rel="stylesheet" /> -->
+  <link href="view/stylesheet/mesajkolik/mesajkolik.css" rel="stylesheet" />
+  <link href="view/stylesheet/mesajkolik/dataTables.bootstrap4.min.css" rel="stylesheet" />
+  <link href="view/javascript/font-awesome/css/font-awesome.min.css" type="text/css" rel="stylesheet" />
+
+
+  <script type="text/javascript" src="view/javascript/mesajkolik/bootstrap-toggle.min.js"></script>
+  <script type="text/javascript" src="view/javascript/mesajkolik/jquery.dataTables.min.js"></script>
+  <script type="text/javascript" src="view/javascript/mesajkolik/dataTables.bootstrap4.min.js"></script>
+  <script type="text/javascript" src="view/javascript/mesajkolik/mesajkolik.js"></script>
+
+{{ footer }}

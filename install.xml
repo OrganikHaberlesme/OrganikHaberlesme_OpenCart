@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+    <name>Mesajkolik</name>
+    <code>organik_opencart_plugin</code>
+    <version>1.0.0</version>
+    <author>Organik Haberleşme</author>
+    <link>https://www.organikhaberlesme.com.tr/</link>
+    <!-- start file operation -->
+    <file path="admin/controller/common/column_left.php">
+        <operation>
+            <search><![CDATA[if ($marketplace) {]]></search>
+            <add position="before"><![CDATA[				$marketplace[] = array(
+					'name'	   => $this->language->get('<img src="view/image/mesajkolik/logo-menu.png" width="16" height="16"> Mesajkolik'),
+					'href'     => $this->url->link('extension/module/mesajkolik', 'user_token=' . $this->session->data['user_token'], true),
+					'children' => array()
+				);]]></add>
+        </operation>
+    </file>
+
+    <file path="catalog/controller/account/register.php">
+        <operation>
+            <search><![CDATA[$this->customer->login($this->request->post['email'], $this->request->post['password']);]]></search>
+            <add position="after"><![CDATA[
+
+			  $this->load->model('setting/setting');
+			  $mesajkolik_settings = $this->model_setting_setting->getSetting('mesajkolik');
+			  $mesajkolik = new MesajkolikApi($mesajkolik_settings['mesajkolik_user'], $mesajkolik_settings['mesajkolik_pass']);
+			  $strReplace = ['[uye_adi]','[uye_soyadi]','[uye_telefon]','[uye_eposta]','[siparis_durum]','[siparis_no]','[siparis_tutar]'];
+			  $strReplaceTo = [$this->request->post['firstname'],$this->request->post['lastname'],$this->request->post['telephone'],$this->request->post['email'],$this->request->post['password']];
+			  // eklenti açık ise işlem yapılacak
+			  if($mesajkolik_settings['mesajkolik_status']==1){
+				//Yeni üye olunca, belirlenen numaralara sms gönderilsin
+				if(isset($mesajkolik_settings['mesajkolik_auto_1_toggle']) and $mesajkolik_settings['mesajkolik_auto_1_toggle']==1 and $mesajkolik_settings['mesajkolik_auto_1_message']!=''){
+				  $message = str_replace($strReplace, $strReplaceTo ,$mesajkolik_settings['mesajkolik_auto_1_message']);
+				  $mesajkolik->sendsms(str_replace('+', '', $mesajkolik_settings['mesajkolik_auto_1_phones']), $message, $mesajkolik_settings['mesajkolik_header']);
+				}
+				//Yeni üye olunca, müşteriye sms gönderilsin
+				if(isset($mesajkolik_settings['mesajkolik_auto_2_toggle']) and $mesajkolik_settings['mesajkolik_auto_2_toggle']==1 and $mesajkolik_settings['mesajkolik_auto_2_message']!=''){
+				  $message = str_replace($strReplace, $strReplaceTo ,$mesajkolik_settings['mesajkolik_auto_2_message']);
+				  $mesajkolik->sendsms(str_replace('+', '', $this->request->post['telephone']), $message, $mesajkolik_settings['mesajkolik_header']);
+				}
+				//Yeni üye olunca, numarasını Organik Haberleşme rehberine ekle
+				if(isset($mesajkolik_settings['mesajkolik_lastgroup_toggle']) and $mesajkolik_settings['mesajkolik_lastgroup_toggle']==1 and $mesajkolik_settings['mesajkolik_lastgroup']!=''){
+				  $groupadd = $mesajkolik->groupadd($mesajkolik_settings['mesajkolik_lastgroup']);
+				  $groupid = ((array)($groupadd->data))[0]->id;
+				  $person = [];
+				  $obj = new stdClass();
+				  $obj->name = $this->request->post['firstname'];
+				  $obj->surname = $this->request->post['lastname'];
+				  $obj->gsm = str_replace('+','',$this->request->post['telephone']);
+				  $obj->group_id = $groupid;
+				  $person[] = $obj;
+				  $add = $mesajkolik->personadd($person, $groupid);
+				}
+
+
+			  }
+
+
+            ]]></add>
+        </operation>
+    </file>
+
+    <file path="catalog/controller/checkout/register.php">
+        <operation>
+            <search><![CDATA[$this->customer->login($this->request->post['email'], $this->request->post['password']);]]></search>
+            <add position="after"><![CDATA[
+
+              $this->load->model('setting/setting');
+      			  $mesajkolik_settings = $this->model_setting_setting->getSetting('mesajkolik');
+      			  $mesajkolik = new MesajkolikApi($mesajkolik_settings['mesajkolik_user'], $mesajkolik_settings['mesajkolik_pass']);
+      			  $strReplace = ['[uye_adi]','[uye_soyadi]','[uye_telefon]','[uye_eposta]','[siparis_durum]','[siparis_no]','[siparis_tutar]'];
+      			  $strReplaceTo = [$this->request->post['firstname'],$this->request->post['lastname'],$this->request->post['telephone'],$this->request->post['email'],$this->request->post['password']];
+      			  // eklenti açık ise işlem yapılacak
+      			  if($mesajkolik_settings['mesajkolik_status']==1){
+      				//Yeni üye olunca, belirlenen numaralara sms gönderilsin
+      				if(isset($mesajkolik_settings['mesajkolik_auto_1_toggle']) and $mesajkolik_settings['mesajkolik_auto_1_toggle']==1 and $mesajkolik_settings['mesajkolik_auto_1_message']!=''){
+      				  $message = str_replace($strReplace, $strReplaceTo ,$mesajkolik_settings['mesajkolik_auto_1_message']);
+      				  $mesajkolik->sendsms(str_replace('+', '', $mesajkolik_settings['mesajkolik_auto_1_phones']), $message, $mesajkolik_settings['mesajkolik_header']);
+      				}
+      				//Yeni üye olunca, müşteriye sms gönderilsin
+      				if(isset($mesajkolik_settings['mesajkolik_auto_2_toggle']) and $mesajkolik_settings['mesajkolik_auto_2_toggle']==1 and $mesajkolik_settings['mesajkolik_auto_2_message']!=''){
+      				  $message = str_replace($strReplace, $strReplaceTo ,$mesajkolik_settings['mesajkolik_auto_2_message']);
+      				  $mesajkolik->sendsms(str_replace('+', '', $this->request->post['telephone']), $message, $mesajkolik_settings['mesajkolik_header']);
+      				}
+      				//Yeni üye olunca, numarasını Organik Haberleşme rehberine ekle
+      				if(isset($mesajkolik_settings['mesajkolik_lastgroup_toggle']) and $mesajkolik_settings['mesajkolik_lastgroup_toggle']==1 and $mesajkolik_settings['mesajkolik_lastgroup']!=''){
+      				  $groupadd = $mesajkolik->groupadd($mesajkolik_settings['mesajkolik_lastgroup']);
+      				  $groupid = ((array)($groupadd->data))[0]->id;
+      				  $person = [];
+      				  $obj = new stdClass();
+      				  $obj->name = $this->request->post['firstname'];
+      				  $obj->surname = $this->request->post['lastname'];
+      				  $obj->gsm = str_replace('+','',$this->request->post['telephone']);
+      				  $obj->group_id = $groupid;
+      				  $person[] = $obj;
+      				  $add = $mesajkolik->personadd($person, $groupid);
+      				}
+
+
+      			  }
+
+            ]]></add>
+        </operation>
+    </file>
+
+    <file path="catalog/controller/checkout/success.php">
+        <operation>
+            <search><![CDATA[$this->cart->clear();]]></search>
+            <add position="after"><![CDATA[
+
+              //settings catalog/controller/checkout/success.php
+              $this->load->model('setting/setting');
+              $mesajkolik_settings = $this->model_setting_setting->getSetting('mesajkolik');
+              $mesajkolik = new MesajkolikApi($mesajkolik_settings['mesajkolik_user'], $mesajkolik_settings['mesajkolik_pass']);
+              $this->load->model('account/order');
+              if (isset($this->session->data['order_id'])) {
+                $order_id = $this->session->data['order_id'];
+              } else {
+                $order_id = 0;
+              }
+              $order_info = $this->model_account_order->getOrder($order_id);
+
+              $strReplace = ['[uye_adi]','[uye_soyadi]','[uye_telefon]','[uye_eposta]','[siparis_no]','[siparis_tutar]'];
+              $strReplaceTo = [$order_info['payment_firstname'],$order_info['payment_lastname'],$order_info['telephone'],$order_info['email'],$order_info['order_id'],money_format('%i', $order_info['total'])];
+              // eklenti açık ise işlem yapılacak
+              if($mesajkolik_settings['mesajkolik_status']==1){
+                //Yeni sipariş geldiğinde, belirlenen numaralara sms gönderilsin
+                if(isset($mesajkolik_settings['mesajkolik_auto_3_toggle']) and $mesajkolik_settings['mesajkolik_auto_3_toggle']==1 and $mesajkolik_settings['mesajkolik_auto_3_message']!=''){
+                    $message = str_replace($strReplace, $strReplaceTo ,$mesajkolik_settings['mesajkolik_auto_3_message']);
+                    $mesajkolik->sendsms(str_replace('+', '', $mesajkolik_settings['mesajkolik_auto_3_phones']), $message, $mesajkolik_settings['mesajkolik_header']);
+                }
+                //Yeni sipariş verildiğinde, Müşteriye bilgilendirme sms gönderilsin
+                if(isset($mesajkolik_settings['mesajkolik_auto_4_toggle']) and $mesajkolik_settings['mesajkolik_auto_4_toggle']==1 and $mesajkolik_settings['mesajkolik_auto_4_message']!=''){
+                    $message = str_replace($strReplace, $strReplaceTo ,$mesajkolik_settings['mesajkolik_auto_4_message']);
+                    $mesajkolik->sendsms(str_replace('+', '', $order_info['telephone']), $message, $mesajkolik_settings['mesajkolik_header']);
+                }
+              }
+                        ]]></add>
+        </operation>
+    </file>
+
+    <file path="catalog/model/account/order.php">
+        <operation>
+            <search><![CDATA[if ($order_query->num_rows) {]]></search>
+            <add position="before"><![CDATA[
+
+              if (!$this->customer->getId()) {
+          			$order_query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "order` WHERE order_id = '" . (int)$order_id . "'");
+          		}
+                        ]]></add>
+        </operation>
+    </file>
+
+    <file path="catalog/controller/api/order.php">
+        <operation>
+            <search><![CDATA[$this->model_checkout_order->addOrderHistory($order_id, $this->request->post['order_status_id'], $this->request->post['comment'], $this->request->post['notify'], $this->request->post['override']);]]></search>
+            <add position="after"><![CDATA[
+
+
+              $this->load->model('setting/setting');
+              $mesajkolik_settings = $this->model_setting_setting->getSetting('mesajkolik');
+              $mesajkolik = new MesajkolikApi($mesajkolik_settings['mesajkolik_user'], $mesajkolik_settings['mesajkolik_pass']);
+
+              $status_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "order_status WHERE order_status_id = '" . (int)$this->request->post['order_status_id'] . "'");
+              $status_exp = $status_query->row['name'];
+
+              $strReplace = ['[uye_adi]','[uye_soyadi]','[uye_telefon]','[uye_eposta]','[siparis_no]','[siparis_tutar]','[siparis_durum]'];
+              $strReplaceTo = [$order_info['payment_firstname'],$order_info['payment_lastname'],$order_info['telephone'],$order_info['email'],$order_info['order_id'],money_format('%i', $order_info['total']),$status_exp];
+              // eklenti açık ise işlem yapılacak
+              if($mesajkolik_settings['mesajkolik_status']==1){
+                //Yeni sipariş verildiğinde, Müşteriye bilgilendirme sms gönderilsin
+                if(isset($mesajkolik_settings['mesajkolik_auto_5_toggle']) and $mesajkolik_settings['mesajkolik_auto_5_toggle']==1 and $mesajkolik_settings['mesajkolik_auto_5_message']!=''){
+                    $message = str_replace($strReplace, $strReplaceTo ,$mesajkolik_settings['mesajkolik_auto_5_message']);
+                    $mesajkolik->sendsms(str_replace('+', '', $order_info['telephone']), $message, $mesajkolik_settings['mesajkolik_header']);
+                }
+              }
+                        ]]></add>
+        </operation>
+
+    </file>
+
+    <file path="catalog/controller/account/return.php">
+        <operation>
+            <search><![CDATA[$this->response->redirect($this->url->link('account/return/success', '', true));]]></search>
+            <add position="before"><![CDATA[
+
+              $this->load->model('setting/setting');
+              $mesajkolik_settings = $this->model_setting_setting->getSetting('mesajkolik');
+              $mesajkolik = new MesajkolikApi($mesajkolik_settings['mesajkolik_user'], $mesajkolik_settings['mesajkolik_pass']);
+
+              $return_id = $this->model_account_return->addReturn($this->request->post);
+              $orderreturn = $this->model_account_return->getReturn($return_id);
+
+              $strReplace = ['[uye_adi]','[uye_soyadi]','[uye_telefon]','[uye_eposta]','[siparis_no]','[iptal_nedeni]','[aciklama]'];
+              $strReplaceTo = [$orderreturn['firstname'],$orderreturn['lastname'],$orderreturn['telephone'],$orderreturn['email'],$orderreturn['order_id'],$orderreturn['reason'],$orderreturn['comment']];
+
+              // eklenti açık ise işlem yapılacak
+              if($mesajkolik_settings['mesajkolik_status']==1){
+                //Sipariş iptal veya iade edildiğinde
+                if(isset($mesajkolik_settings['mesajkolik_auto_6_toggle']) and $mesajkolik_settings['mesajkolik_auto_6_toggle']==1 and $mesajkolik_settings['mesajkolik_auto_6_message']!=''){
+
+                    $message = str_replace($strReplace, $strReplaceTo ,$mesajkolik_settings['mesajkolik_auto_6_message']);
+                    $mesajkolik->sendsms(str_replace('+', '', $mesajkolik_settings['mesajkolik_auto_6_phones']), $message, $mesajkolik_settings['mesajkolik_header']);
+                }
+              }
+
+            ]]></add>
+        </operation>
+    </file>
+
+    <!-- end file operation -->
+</modification>
